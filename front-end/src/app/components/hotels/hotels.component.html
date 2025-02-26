@@ -1,0 +1,25 @@
+<div class="container mt-4">
+  <div class="form-group">
+    <label for="citySelect">Choisissez votre Ville :</label>
+    <select id="citySelect" class="custom-select" (change)="onCityChange($event)">
+      <option value="" disabled selected>-- Sélectionnez une ville --</option>
+      <option *ngFor="let city of listCities" [value]="city.id">{{ city.name }}</option>
+    </select>
+  </div>
+</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+<div *ngIf="!error && filteredHotels && filteredHotels.length === 0" class="no-data">No hotels available.</div>
+<div *ngIf="!error && filteredHotels && filteredHotels.length > 0" class="hotel-grid">
+  <div *ngFor="let hotel of filteredHotels" class="hotel-card">
+    <img [src]="hotel.imageUrl" alt="{{ hotel.name }}" class="hotel-image">
+    <div class="hotel-info">
+      <h2>{{ hotel.name }}</h2>
+      <p>Adresse: {{ hotel.address }}</p>
+      <p>Ville: {{ hotel.city.name }}</p>
+      <p>Nombre d'Etoiles: {{ hotel.numberOfStar }}</p>
+      <p>Chambres Disponibles: {{ hotel.totalRoomOfAvailable }}</p>
+      <p>Prix par nuitée: {{ hotel.price }}€</p>
+      <p>Télephone: {{ hotel.phone }}</p>
+    </div>
+  </div>
+</div>

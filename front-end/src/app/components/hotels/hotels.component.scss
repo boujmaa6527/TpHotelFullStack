@@ -1,0 +1,76 @@
+.hotel-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .hotel-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 16px;
+  }
+  
+  .hotel-info {
+    flex: 1;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .no-data {
+    color: gray;
+  }
+  .hotel-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Espace entre les cartes */
+  }
+  
+  .hotel-card {
+    flex: 1 1 calc(33.333% - 16px); /* Trois cartes par ligne */
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  .custom-select {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    font-size: 1rem;
+  }
+  
+  /* Amélioration de la couleur de fond pour le label */
+  .form-group label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #343a40;
+  }
+  
+  /* Ajouter un peu d'espace entre les éléments */
+  .container {
+    padding: 20px;
+    max-width: 500px; /* Vous pouvez ajuster cette valeur selon la taille souhaitée */
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Applique une couleur de fond claire lorsque le select est focusé */
+  .custom-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+  }
+  
+  /* Style lorsque l'option est sélectionnée */
+  .custom-select option:checked {
+    background-color: #007bff;
+    color: white;
+  }
+
+  
