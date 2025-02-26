@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,9 @@ public class ImplHotelService implements IHotelService{
 
     @Override
     public List<Hotel> getAllHotels() {
-        return hotelRepository.findAll();
+        List<Hotel> hotels = hotelRepository.findAll();
+        hotels.sort(Comparator.comparing(Hotel::getId));
+        return hotels;
 
     }
 

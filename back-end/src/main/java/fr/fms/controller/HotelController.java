@@ -99,56 +99,56 @@ public class HotelController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("{id}")
-    //@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<Hotel> updateHotel(@PathVariable Long id, @RequestBody Hotel hotel) {
-        return ResponseEntity.ok(hotel);
+//    @PutMapping("{id}")
+//    //@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+//    public ResponseEntity<Hotel> updateHotel(@PathVariable Long id, @RequestBody Hotel hotel) {
+//        return ResponseEntity.ok(hotel);
+//    }
+@PutMapping("/hotels/{id}")
+//@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+public ResponseEntity<Hotel> updateHotel(@PathVariable Long id,
+                                         @RequestParam("name") String name,
+                                         @RequestParam("phone") String phone,
+                                         @RequestParam("address") String address,
+                                         @RequestParam("numberOfStar") double numberStar,
+                                         @RequestParam("totalRoomOfAvailable") double totalRoom,
+                                         @RequestParam("price") double price,
+                                         @RequestParam("city") Long cityId,
+                                         @RequestParam(value = "file", required = false)MultipartFile file) {
+
+    Optional<Hotel> existingHotel = implHotelService.readHotel(id);
+    Optional<City> city = implHotelService.getCityById(cityId);
+
+    if (!existingHotel.isPresent() || !city.isPresent()) {
+        return ResponseEntity.badRequest().build();
     }
-    @PutMapping("/hotels/{id}")
-    //@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<Hotel> updateHotel(@PathVariable Long id,
-                                                @RequestParam("name") String name,
-                                                @RequestParam("phone") String phone,
-                                                @RequestParam("address") String address,
-                                                @RequestParam("numberOfStar") double numberStar,
-                                                @RequestParam("totalRoomOfAvailable") double totalRoom,
-                                                @RequestParam("price") double price,
-                                                @RequestParam("city") Long cityId,
-                                                @RequestParam(value = "file", required = false)MultipartFile file) {
 
-        Optional<Hotel> existingHotel = implHotelService.readHotel(id);
-        Optional<City> city = implHotelService.getCityById(cityId);
+    Hotel hotel = new Hotel();
+    hotel.setName(name);
+    hotel.setPhone(phone);
+    hotel.setAddress(address);
+    hotel.setNumberOfStar(numberStar);
+    hotel.setTotalRoomOfAvailable(totalRoom);
+    hotel.setPrice(price);
+    hotel.setCity(city.get());
 
-        if (!existingHotel.isPresent() || !city.isPresent()) {
-            return ResponseEntity.badRequest().build();
+    if (file != null && !file.isEmpty()) {
+        try {
+            String fileName = file.getOriginalFilename();
+            String uploadDir = "src/main/resources/static/images/";
+            Path path = Paths.get(uploadDir + fileName);
+            Files.createDirectories(path.getParent());
+            Files.write(path, file.getBytes());
+
+            hotel.setImageUrl("http://localhost:8080/images/" + fileName);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-        Hotel hotel = new Hotel();
-        hotel.setName(name);
-        hotel.setPhone(phone);
-        hotel.setAddress(address);
-        hotel.setNumberOfStar(numberStar);
-        hotel.setTotalRoomOfAvailable(totalRoom);
-        hotel.setPrice(price);
-        hotel.setCity(city.get());
-
-        if (file != null && !file.isEmpty()) {
-            try {
-                String fileName = file.getOriginalFilename();
-                String uploadDir = "src/main/resources/static/images/";
-                Path path = Paths.get(uploadDir + fileName);
-                Files.createDirectories(path.getParent());
-                Files.write(path, file.getBytes());
-
-                hotel.setImageUrl("http://localhost:8080/images/" + fileName);
-            } catch (IOException e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            }
-        }
-        logger.info("Hotel saved successfully: ");
-        Hotel updatedHotel = implHotelService.saveHotel(hotel);
-        return ResponseEntity.ok(updatedHotel);
     }
+    logger.info("Hotel saved successfully: ");
+    Hotel updatedHotel = implHotelService.saveHotel(hotel);
+    return ResponseEntity.ok(updatedHotel);
+}
     @DeleteMapping("/hotels/{id}")
     public ResponseEntity<?> deleteHotel(@PathVariable("id") Long id) {
         Optional<Hotel> HotelOpt = implHotelService.readHotel(id);
@@ -169,7 +169,7 @@ public class HotelController {
 
                 if (Files.exists(imagePath)) {
                     Files.delete(imagePath);
-                    
+
                     System.out.println("Image supprimée: " + imagePath);
                 }
             } catch (IOException e) {

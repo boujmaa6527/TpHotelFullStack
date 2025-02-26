@@ -99,12 +99,19 @@ export class HotelComponent  implements OnInit{
       formData.append('price', form.value.price);
       formData.append('city', cityId);
 
+      // si une new img est selectionné on l'ajoute au form
       if (this.selectedFile) {
         formData.append('file', this.selectedFile);
+      }else{
+        //sinon si aucune img n'est selectionné add l'URL de l'img existant
+        if(!this.selectedFile && this.hotel?.imageUrl){
+          formData.append("imageUrl", this.hotel.imageUrl);
+        }
       }
       console.log("Form data", formData);
 
       if (this.status) {
+        console.log(this.status);
         this.updateHotel(formData);
       } else {
         this.apiService.postHotel(formData).subscribe({
