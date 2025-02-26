@@ -76,9 +76,7 @@
   
           <div>
             <button *ngIf="!status" type="submit" class="btn btn-primary"> Enregistrez</button>
-            <!-- <button *ngIf="status" type="submit" class="btn bg-orange c-white">
-              Mise à jour
-            </button> -->
+            <button *ngIf="status" type="submit" class="btn bg-orange c-white">Mise à jour</button>
             <div class="text-danger">{{ error }}</div>
           </div>
         </form>

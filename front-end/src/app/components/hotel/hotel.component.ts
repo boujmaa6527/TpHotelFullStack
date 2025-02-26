@@ -38,6 +38,7 @@ export class HotelComponent  implements OnInit{
 
   ngOnInit(): void {
     let id = this.route.snapshot.params['id'];
+    console.log("HotelId", id);
     this.apiService.getCities().subscribe({
       next: (data) => {
         this.cities = data;

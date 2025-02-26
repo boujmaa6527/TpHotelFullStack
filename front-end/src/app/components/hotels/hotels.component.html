@@ -20,6 +20,9 @@
       <p>Chambres Disponibles: {{ hotel.totalRoomOfAvailable }}</p>
       <p>Prix par nuitée: {{ hotel.price }}€</p>
       <p>Télephone: {{ hotel.phone }}</p>
+      <button class="btn btn-success"(click)="onUpdateHotel(hotel)">✏️ Modifier</button>
+      <button class="btn btn-danger"(click)="onDeleteHotel(hotel)">✏️ Supprimer</button>
+
     </div>
   </div>
 </div>

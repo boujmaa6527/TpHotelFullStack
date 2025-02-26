@@ -102,7 +102,7 @@ public class HotelController {
     public ResponseEntity<Hotel> updateHotel(@PathVariable Long id, @RequestBody Hotel hotel) {
         return ResponseEntity.ok(hotel);
     }
-    @PutMapping("/Hotels/{id}")
+    @PutMapping("/hotels/{id}")
     //@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Hotel> updateHotel(@PathVariable Long id,
                                                 @RequestParam("name") String name,
