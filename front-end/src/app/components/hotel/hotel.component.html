@@ -12,29 +12,47 @@
           <div class="form-group">
             <label class="control-label">Nom de l'Hotel : </label>
             <input type="text" formControlName="name" class="form-control" />
+            <div *ngIf="myForm.get('name')?.invalid && myForm.get('name')?.touched" class="text-danger">
+                <small *ngIf="myForm.get('name')?.errors?.['required']">Le nom est requis</small>
+            </div>
           </div>
           <div class="form-group">
             <label class="control-label">Adresse : </label>
-            <input type="text"formControlName="address"class="form-control"
-            />
+            <input type="text"formControlName="address"class="form-control"/>
+            <div *ngIf="myForm.get('address')?.invalid && myForm.get('address')?.touched" class="text-danger">
+              <small *ngIf="myForm.get('address')?.errors?.['required']">L'adresse est requise</small>
+            </div>
           </div>
           <div class="form-group">
             <label class="control-label">Telephone : </label>
-            <input type="text"formControlName="phone"class="form-control"
-            />
+            <input type="text"formControlName="phone"class="form-control"/>
+            <div *ngIf="myForm.get('phone')?.invalid && myForm.get('phone')?.touched" class="text-danger">
+              <small *ngIf="myForm.get('phone')?.errors?.['required']">LE télephone est requis</small>
+            </div>
           </div>
           <div class="form-group">
             <label class="control-label">Nombre Etoile : </label>
-            <input type="text"formControlName="numberOfStar"class="form-control"
-            />
+            <input type="number"formControlName="numberOfStar"class="form-control"/>
+            <div *ngIf="myForm.get('numberOfStar')?.invalid && myForm.get('numberOfStar')?.touched" class="text-danger">
+              <small *ngIf="myForm.get('numberOfStar')?.errors?.['required']">LE nombre est requis</small>
+              <small *ngIf="myForm.get('numberOfStar')?.errors?.['min']">LE nombre doit sup à égale à 0</small>
+            </div>
           </div>
           <div class="form-group">
             <label class="control-label">Prix : </label>
             <input type="number" formControlName="price" min="0"   class="form-control" />
+            <div *ngIf="myForm.get('price')?.invalid && myForm.get('price')?.touched" class="text-danger">
+              <small *ngIf="myForm.get('price')?.errors?.['required']">LE prix est requis</small>
+              <small *ngIf="myForm.get('price')?.errors?.['min']">LE prix doit sup à ou égal à 0</small>
+            </div>
           </div>
           <div class="form-group">
             <label class="control-label">Chambre Disponibles : </label>
             <input type="number" formControlName="totalRoomOfAvailable" min="0"  class="form-control" />
+            <div *ngIf="myForm.get('totalRoomOfAvailable')?.invalid && myForm.get('totalRoomOfAvailable')?.touched" class="text-danger">
+              <small *ngIf="myForm.get('totalRoomOfAvailable')?.errors?.['required']">LE nombre est requis</small>
+              <small *ngIf="myForm.get('totalRoomOfAvailable')?.errors?.['min']">LE nombre doit sup à ou égal à 0</small>
+            </div>
           </div>
           <div class="form-group">
             <label class="control-label">Image :</label>
@@ -51,10 +69,13 @@
                 {{ city.name }}
               </option>
             </select>
+            <div *ngIf="myForm.get('city')?.invalid && myForm.get('city')?.touched" class="text-danger">
+              <small *ngIf="myForm.get('city')?.errors?.['required']">La ville est requise</small>
+            </div>
           </div>
   
           <div>
-            <button type="submit" class="btn btn-primary"> Enregistrez</button>
+            <button *ngIf="!status" type="submit" class="btn btn-primary"> Enregistrez</button>
             <!-- <button *ngIf="status" type="submit" class="btn bg-orange c-white">
               Mise à jour
             </button> -->

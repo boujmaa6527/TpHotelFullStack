@@ -2,7 +2,7 @@
   <div class="form-group">
     <label for="citySelect">Choisissez votre Ville :</label>
     <select id="citySelect" class="custom-select" (change)="onCityChange($event)">
-      <option value="" disabled selected>-- Sélectionnez une ville --</option>
+      <option value="" disabled selected>  Sélectionnez une ville </option>
       <option *ngFor="let city of listCities" [value]="city.id">{{ city.name }}</option>
     </select>
   </div>

@@ -36,9 +36,16 @@ export class ApiService {
   public delHotel(hotel: Hotel) {
     return this.http.delete(environment.host + "/hotels/" + hotel.id);
   }
+  saveHotel(hotel: Hotel): Observable<Hotel> {
+    return this.http.post<Hotel>(`${environment.host}/hotels`, hotel);
+  }
 
   public putHotel(hotel: any) {
     return this.http.put<Hotel>(environment.host + "/hotels/" + hotel.id, hotel);
+  }
+
+  createHotel(Hotel: Hotel): Observable<Hotel>{
+    return this.http.post<Hotel>(`${environment.host}/hotel/`, Hotel);
   }
 
 }

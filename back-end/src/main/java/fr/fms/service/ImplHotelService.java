@@ -3,6 +3,7 @@ package fr.fms.service;
 import fr.fms.entity.City;
 import fr.fms.entity.Hotel;
 import fr.fms.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class ImplHotelService implements IHotelService{
 
     @Autowired
@@ -31,8 +33,8 @@ public class ImplHotelService implements IHotelService{
 
     @Override
     public List<Hotel> getAllHotels() {
-        List<Hotel> hotels = hotelRepository.findAll();
-        return hotels;
+        return hotelRepository.findAll();
+
     }
 
     @Override

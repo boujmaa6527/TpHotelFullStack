@@ -12,7 +12,7 @@ import { City } from '../../model/city.model';
 })
 export class HotelComponent  implements OnInit{
   myForm: FormGroup;
-  hotel!: Hotel;
+  hotel: Hotel;
   error: string = "";
   status: boolean = false;
   cities: City[] = [];
@@ -27,10 +27,9 @@ export class HotelComponent  implements OnInit{
       name: ["", Validators.required], 
       address: ["", Validators.required],
       phone: ["", Validators.required],
-      imageUrl: ["", Validators.required],
-      numberOfStar: [this.hotel.numberOfStar, [Validators.required, Validators.min(0)]],
-      totalRoomOfAvailable: [this.hotel.totalRoomOfAvailable, [Validators.required, Validators.min(0)]],
-      price:  [this.hotel.price, [Validators.required, Validators.min(0)]],
+      numberOfStar: ["", [Validators.required, Validators.min(0)]],
+      totalRoomOfAvailable: ["", [Validators.required, Validators.min(0)]],
+      price: ["", [Validators.required, Validators.min(0)]],
       city:["", Validators.required]
 
     });
@@ -39,7 +38,6 @@ export class HotelComponent  implements OnInit{
 
   ngOnInit(): void {
     let id = this.route.snapshot.params['id'];
-
     this.apiService.getCities().subscribe({
       next: (data) => {
         this.cities = data;
@@ -70,40 +68,6 @@ export class HotelComponent  implements OnInit{
       });
     }
   }
-  onAddHotel(form: FormGroup) {
-    if (form.valid) {
-      const cityId = form.value.city;
-      if (!cityId) {
-        this.error = 'La ville est obligatoire';
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('name', form.value.name);
-      formData.append('phone', form.value.phone);
-      formData.append('address', form.value.address);
-      formData.append('numberOfStar', form.value.numberOfStar);
-      formData.append('totalRoomOfAvailable', form.value.totalRoomOfAvailable);
-      formData.append('price', form.value.price);
-      formData.append('city', cityId);
-
-      if (this.selectedFile) {
-        formData.append('file', this.selectedFile);
-      }
-
-      if (this.status) {
-        this.updateTraining(formData);
-      } else {
-        this.apiService.postHotel(formData).subscribe({
-          next: () => this.router.navigateByUrl('hotels'),
-          error: (err) => (this.error = err.message),
-        });
-      }
-    } else {
-      this.error = 'Erreur de saisie';
-    }
-  }
-
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -117,13 +81,53 @@ export class HotelComponent  implements OnInit{
       reader.readAsDataURL(file);
     }
   }
+  onAddHotel(form: FormGroup) {
+    if (form.valid) {
+      const cityId = form.value.city;
+      if (!cityId) {
+        this.error = 'La ville est obligatoire';
+        return;
+      }
+      console.log("Form value", form.value);
+      const formData = new FormData();
+      formData.append('name', form.value.name);
+      formData.append('phone', form.value.phone);
+      formData.append('address', form.value.address);
+      formData.append('numberOfStar', form.value.numberOfStar);
+      formData.append('totalRoomOfAvailable', form.value.totalRoomOfAvailable);
+      formData.append('price', form.value.price);
+      formData.append('city', cityId);
+
+      if (this.selectedFile) {
+        formData.append('file', this.selectedFile);
+      }
+      console.log("Form data", formData);
+
+      if (this.status) {
+        this.updateHotel(formData);
+      } else {
+        this.apiService.postHotel(formData).subscribe({
+          next: (response) => {
+            console.log('Hotel created successfully:', response);
+            this.router.navigateByUrl('hotels');
+          },
+          error: (err) => {
+            console.error('Error during hotel creation:', err);
+            this.error = err.message;
+          },
+        });
+      }
+    } else {
+      this.error = 'Erreur de saisie!';
+    }
+  }
 
 
   /**
    * Méthode de mise à jour d'une nouvelle formation
    * @param form comprend le formulaire avec toutes les données saisies par l'utilisateur
    */
-  updateTraining(formData: FormData) {
+  updateHotel(formData: FormData) {
     this.apiService.updateHotel(this.myForm.value.id, formData).subscribe({
       next: () => {
         console.log('Hotel mise à jour avec succès');

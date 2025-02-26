@@ -3,12 +3,15 @@ package fr.fms.controller;
 
 import fr.fms.entity.City;
 import fr.fms.entity.Hotel;
+import fr.fms.repository.HotelRepository;
 import fr.fms.service.ImplHotelService;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,26 +23,25 @@ import java.util.List;
 import java.util.Optional;
 
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@Slf4j
 @Transactional
 @RequestMapping("/api")
-@Controller
 public class HotelController {
 
     @Autowired
     private ImplHotelService implHotelService;
 
-    @GetMapping("/hotels")
-    public List<Hotel>  allHotels(){
-        return implHotelService.getAllHotels();
-    }
+    @Autowired
+    private HotelRepository hotelRepository;
 
-//    @PostMapping("/hotels")
-//    public ResponseEntity<Hotel> saveCustomer(@RequestBody Hotel hotel){
-//        Hotel savedHotel =  implHotelService.saveHotel(hotel);
-//        return  ResponseEntity.ok(savedHotel);
-//    }
+    private  static final Logger logger = (Logger) LoggerFactory.getLogger(HotelController.class);
+    @GetMapping("/hotels")
+    public ResponseEntity<List<Hotel>>  allHotels(){
+        List<Hotel> hotels = implHotelService.getAllHotels();
+        return ResponseEntity.ok(hotels);
+    }
     @PostMapping("/hotels")
     public ResponseEntity<Hotel> createHotel(@RequestParam("name") String name,
                                              @RequestParam("phone") String phone,
@@ -49,8 +51,12 @@ public class HotelController {
                                              @RequestParam("price") double price,
                                              @RequestParam("city") Long cityId,
                                              @RequestParam(value = "file", required = false)MultipartFile file){
+        System.out.println("Received hotel creation request");
+        logger.info("Received hotel creation");
         Optional<City> city = implHotelService.getCityById(cityId);
         if(!city.isPresent()){
+            logger.info("City not Found for id " +cityId);
+            System.out.println("City not Found for id " +cityId);
             return ResponseEntity.badRequest().build();
         }
         Hotel hotel = new Hotel();
@@ -70,12 +76,17 @@ public class HotelController {
                 file.transferTo(path);
                 hotel.setImageUrl("http://localhost:8080/images/" + fileName);
             } catch (IOException e) {
+                logger.info("Error while saving image" + e.getMessage());
+                System.out.println("Error while saving image" + e.getMessage());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
         }
         Hotel saveHotel = implHotelService.saveHotel(hotel);
+        logger.info("Hotel saved successfully: " + saveHotel.getName());
+        System.out.println("Hotel saved successfully: " + saveHotel.getName());
         return ResponseEntity.ok(saveHotel);
     }
+
 
     @GetMapping("hotels/{id}")
     public ResponseEntity<Hotel> getHotelById(@PathVariable("id") Long id){
@@ -88,12 +99,12 @@ public class HotelController {
 
     @PutMapping("{id}")
     //@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<Hotel> updateTraining(@PathVariable Long id, @RequestBody Hotel hotel) {
+    public ResponseEntity<Hotel> updateHotel(@PathVariable Long id, @RequestBody Hotel hotel) {
         return ResponseEntity.ok(hotel);
     }
     @PutMapping("/Hotels/{id}")
     //@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<Hotel> updateTraining(@PathVariable Long id,
+    public ResponseEntity<Hotel> updateHotel(@PathVariable Long id,
                                                 @RequestParam("name") String name,
                                                 @RequestParam("phone") String phone,
                                                 @RequestParam("address") String address,

@@ -16,17 +16,19 @@ public class CorsConfig {
     public WebMvcConfigurer corsConfigurer(){
 
         return new WebMvcConfigurer() {
-            /**
-             * Configure CORS mappings.
-             *
-             * @param registry CorsRegistry to add mappings to.
-             */
             @Override
             public void addCorsMappings(CorsRegistry registry){
                 registry.addMapping("/api/**")
                         .allowedOrigins("http://localhost:8080")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }
+
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/images/**")
+//                .addResourceLocations("file:src/main/resources/static/images/");
+//    }
 }
