@@ -40,6 +40,7 @@ public class HotelController {
     @GetMapping("/hotels")
     public ResponseEntity<List<Hotel>>  allHotels(){
         List<Hotel> hotels = implHotelService.getAllHotels();
+        logger.info("Received hotel creation");
         return ResponseEntity.ok(hotels);
     }
     @PostMapping("/hotels")
@@ -92,6 +93,7 @@ public class HotelController {
     public ResponseEntity<Hotel> getHotelById(@PathVariable("id") Long id){
         Optional<Hotel> hotel = implHotelService.getHotelById(id);
         if(hotel.isPresent()){
+            logger.info("Received hotel creation");
            return new ResponseEntity<>(hotel.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -143,7 +145,7 @@ public class HotelController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
         }
-
+        logger.info("Hotel saved successfully: ");
         Hotel updatedHotel = implHotelService.saveHotel(hotel);
         return ResponseEntity.ok(updatedHotel);
     }
@@ -167,6 +169,7 @@ public class HotelController {
 
                 if (Files.exists(imagePath)) {
                     Files.delete(imagePath);
+                    
                     System.out.println("Image supprimée: " + imagePath);
                 }
             } catch (IOException e) {

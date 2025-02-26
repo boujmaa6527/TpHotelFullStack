@@ -6,6 +6,7 @@ import { HotelComponent } from './components/hotel/hotel.component';
 const routes: Routes = [
 
     {path: "hotels", component: HotelsComponent},
+    {path: "hotel/:id", component: HotelComponent},
     {path: "hotel", component: HotelComponent},
     {path: "", component: HotelsComponent}
 

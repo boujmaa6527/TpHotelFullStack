@@ -4,7 +4,7 @@
         <form
           [formGroup]="myForm" (ngSubmit)="onAddHotel(myForm)"  style="width: 50%" >
           <h2 class="text-center" *ngIf="!status">Ajout d'un Hotel</h2>
-          <h2 class="text-center" *ngIf="status">Modification d'une Hotel</h2>
+          <h2 class="text-center" *ngIf="status">Modification d'un Hotel</h2>
           <div *ngIf="myForm.value.id" class="form-group">
             <label class="control-label">Id : </label>
             <input id="id" type="text"  formControlName="id"  class="form-control"  readonly />
@@ -75,8 +75,8 @@
           </div>
   
           <div>
-            <button *ngIf="!status" type="submit" class="btn btn-primary"> Enregistrez</button>
-            <button *ngIf="status" type="submit" class="btn bg-orange c-white">Mise à jour</button>
+            <button *ngIf="!status" type="submit" class="btn btn-primary">Enregistrez</button>
+            <button *ngIf="status" type="submit" class="btn btn-primary">Mise à jour</button>
             <div class="text-danger">{{ error }}</div>
           </div>
         </form>

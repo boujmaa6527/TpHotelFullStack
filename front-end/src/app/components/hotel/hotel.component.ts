@@ -132,7 +132,7 @@ export class HotelComponent  implements OnInit{
     this.apiService.updateHotel(this.myForm.value.id, formData).subscribe({
       next: () => {
         console.log('Hotel mise à jour avec succès');
-        this.router.navigateByUrl('Hotels');
+        this.router.navigateByUrl('hotels');
       },
       error: (err) => this.error = err.message
     });
