@@ -122,8 +122,8 @@ public ResponseEntity<Hotel> updateHotel(@PathVariable Long id,
     if (!existingHotel.isPresent() || !city.isPresent()) {
         return ResponseEntity.badRequest().build();
     }
-
-    Hotel hotel = new Hotel();
+    // On recupère l'Hotel existant pour l'Update avec le get()
+    Hotel hotel = existingHotel.get();
     hotel.setName(name);
     hotel.setPhone(phone);
     hotel.setAddress(address);

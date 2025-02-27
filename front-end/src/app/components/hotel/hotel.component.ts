@@ -109,7 +109,7 @@ export class HotelComponent  implements OnInit{
         }
       }
       console.log("Form data", formData);
-
+/* 
       if (this.status) {
         console.log(this.status);
         this.updateHotel(formData);
@@ -124,12 +124,29 @@ export class HotelComponent  implements OnInit{
             this.error = err.message;
           },
         });
-      }
+      } */
+     if(this.status){
+      this.updateHotel(formData);
+     }else{
+      this.createHotel(formData);
+     }
     } else {
       this.error = 'Erreur de saisie!';
     }
   }
+  createHotel(formData : FormData){
+      this.apiService.postHotel(formData).subscribe({
+        next: (response) => {
+          console.log("Hotel created successfully", response);
+          this.router.navigateByUrl("hotels");
+        },
+        error: (err) => {
+          console.error("Error during hotel creation: ", err);
+          this.error = err.message;
+        }
+      })
 
+  }
 
   /**
    * Méthode de mise à jour d'une nouvelle formation

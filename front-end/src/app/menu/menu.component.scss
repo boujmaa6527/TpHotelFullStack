@@ -34,4 +34,37 @@
 
 .navbar-nav .nav-item .nav-link.disabled {
     color: #6c757d;
+}.navbar {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e7e7e7;
 }
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.nav-link {
+    color: #555;
+    font-size: 1.1rem;
+    padding: 10px 15px;
+}
+
+.nav-link:hover {
+    color: #007bff;
+    background-color: #e7e7e7;
+    border-radius: 5px;
+}
+
+.nav-item.active .nav-link {
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 5px;
+}
+
+.nav-item.disabled .nav-link {
+    color: #ccc;
+    pointer-events: none;
+}
+

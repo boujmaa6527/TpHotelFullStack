@@ -7,13 +7,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { MenuComponent } from './menu/menu.component';
 import { HotelComponent } from './components/hotel/hotel.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HotelsComponent,
     MenuComponent,
-    HotelComponent
+    HotelComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
