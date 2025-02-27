@@ -11,17 +11,17 @@
 <div *ngIf="!error && filteredHotels && filteredHotels.length === 0" class="no-data">No hotels available.</div>
 <div *ngIf="!error && filteredHotels && filteredHotels.length > 0" class="hotel-grid">
   <div *ngFor="let hotel of filteredHotels" class="hotel-card">
-    <img [src]="hotel.imageUrl" alt="{{ hotel.name }}" class="hotel-image">
+    <img  (click)="onUpdateHotelDetail(hotel)"  [src]="hotel.imageUrl" alt="{{ hotel.name }}" class="hotel-image">
     <div class="hotel-info">
       <h2>{{ hotel.name }}</h2>
-      <p>Adresse: {{ hotel.address }}</p>
+      <!-- <p>Adresse: {{ hotel.address }}</p>
       <p>Ville: {{ hotel.city.name }}</p>
       <p>Nombre d'Etoiles: {{ hotel.numberOfStar }}</p>
       <p>Chambres Disponibles: {{ hotel.totalRoomOfAvailable }}</p>
       <p>Prix par nuitée: {{ hotel.price }}€</p>
       <p>Télephone: {{ hotel.phone }}</p>
       <button class="btn btn-success"(click)="onUpdateHotel(hotel)">✏️ Modifier</button>
-      <button class="btn btn-danger"(click)="onDeleteHotel(hotel)"> Supprimer</button>
+      <button class="btn btn-danger"(click)="onDeleteHotel(hotel)"> Supprimer</button> -->
 
     </div>
   </div>

@@ -8,6 +8,7 @@ import { MenuComponent } from './menu/menu.component';
 import { HotelComponent } from './components/hotel/hotel.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
+import { HotelDetailComponent } from './components/hotel-detail/hotel-detail.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { LoginComponent } from './components/login/login.component';
     HotelsComponent,
     MenuComponent,
     HotelComponent,
-    LoginComponent
+    LoginComponent,
+    HotelDetailComponent
   ],
   imports: [
     BrowserModule,

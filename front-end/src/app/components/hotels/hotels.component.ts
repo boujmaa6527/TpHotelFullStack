@@ -77,6 +77,9 @@ export class HotelsComponent  implements OnInit{
   onUpdateHotel(hotel: Hotel) {
     this.router.navigateByUrl('hotel/' + hotel.id);
   }
+  onUpdateHotelDetail(hotel: Hotel) {
+    this.router.navigateByUrl('hotel-detail/' + hotel.id);
+  }
   onDeleteHotel(hotel: Hotel) {
     if (confirm("vous êtes sur de vouloir supprimer cette Hotel")) {
       this.apiService.delHotel(hotel).subscribe({
