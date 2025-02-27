@@ -16,6 +16,7 @@ export class HotelComponent  implements OnInit{
   error: string = "";
   status: boolean = false;
   cities: City[] = [];
+ 
   
   selectedFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
@@ -69,6 +70,7 @@ export class HotelComponent  implements OnInit{
       });
     }
   }
+  formSubmitted = false;
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -83,10 +85,16 @@ export class HotelComponent  implements OnInit{
     }
   }
   onAddHotel(form: FormGroup) {
-    if (form.valid) {
+    this.formSubmitted = true;
+    if (form.valid && this.formSubmitted) {
       const cityId = form.value.city;
       if (!cityId) {
         this.error = 'La ville est obligatoire';
+        return;
+      }
+      // check if an image is selected
+      if(!this.selectedFile && !this.hotel.imageUrl){
+        this.error = "L image est obligatoire ";
         return;
       }
       console.log("Form value", form.value);
