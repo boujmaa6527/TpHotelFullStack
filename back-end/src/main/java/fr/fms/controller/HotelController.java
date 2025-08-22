@@ -3,8 +3,10 @@ package fr.fms.controller;
 
 import fr.fms.entity.City;
 import fr.fms.entity.Hotel;
+import fr.fms.entity.User;
 import fr.fms.repository.HotelRepository;
 import fr.fms.service.ImplHotelService;
+import fr.fms.service.ImplUserService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -35,6 +37,9 @@ public class HotelController {
 
     @Autowired
     private HotelRepository hotelRepository;
+
+    @Autowired
+    private ImplUserService implUserService;
 
     private  static final Logger logger = (Logger) LoggerFactory.getLogger(HotelController.class);
     @GetMapping("/hotels")
@@ -195,4 +200,25 @@ public ResponseEntity<Hotel> updateHotel(@PathVariable Long id,
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/users/login")
+    public ResponseEntity<User> loginUser(@RequestParam("email") String email,
+                                          @RequestParam("password") String password){
+        Optional<User> userOpt= implUserService.authenticate(email, password);
+        logger.info("Authenticating user with email: {} and password: {}", email, password);
+        if(userOpt.isPresent()){
+            logger.info("user authenticated: {}", email);
+            return ResponseEntity.ok(userOpt.get());
+        }else {
+            logger.warn("Failed for email: {}", email);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    @PostMapping("/users")
+    public ResponseEntity<User> createUser(@RequestBody User user){
+        User saveUser = implUserService.saveUser(user);
+        logger.info("User created: {}", saveUser.getEmail());
+        return ResponseEntity.status(HttpStatus.CREATED).body(saveUser);
+    }
+
 }

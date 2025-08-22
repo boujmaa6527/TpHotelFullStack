@@ -19,14 +19,12 @@ public class ImplHotelService implements IHotelService{
     @Autowired
     private CityRepository cityRepository;
 
-    @Autowired
-    private GestionnaireRepository gestionnaireRepository;
+
 
     @Autowired
     private HotelRepository hotelRepository;
 
-    @Autowired
-    private SupervisorRepository supervisorRepository;
+
 
     @Autowired
     private RoleRepository roleRepository;

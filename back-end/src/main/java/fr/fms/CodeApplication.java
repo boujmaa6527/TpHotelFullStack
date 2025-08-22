@@ -3,16 +3,15 @@ package fr.fms;
 import fr.fms.entity.City;
 import fr.fms.entity.Hotel;
 import fr.fms.entity.Role;
-import fr.fms.entity.Supervisor;
+import fr.fms.entity.User;
 import fr.fms.repository.CityRepository;
 import fr.fms.repository.HotelRepository;
 import fr.fms.service.ImplAccountService;
+import fr.fms.service.ImplUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.ArrayList;
 
 @SpringBootApplication
 public class CodeApplication  implements CommandLineRunner {
@@ -23,6 +22,8 @@ public class CodeApplication  implements CommandLineRunner {
 	@Autowired
 	private CityRepository cityRepository;
 
+	@Autowired
+	private ImplUserService implUserService;
 
 
 	public static void main(String[] args) {
@@ -35,19 +36,18 @@ public class CodeApplication  implements CommandLineRunner {
 		dataHotels();
 	}
 	private void dataUsers() {
-		implAccountService.saveSupervisor(new Supervisor(null, "rachid@gmail.com", "12345", new ArrayList<>()));
-		implAccountService.saveSupervisor(new Supervisor(null, "hugo@gmail", "12345", new ArrayList<>()));
-		implAccountService.saveRole(new Role(null,  "SUPERVISOR"));
-		implAccountService.saveRole(new Role(null, "GESTIONNAIRE"));
-		implAccountService.addRoleToSupervisor("rachid@gmail.com", "SUPERVISOR");
-		implAccountService.addRoleToSupervisor("hugo@gmail.com", "GESTIONNAIRE");
-		implAccountService.addRoleToSupervisor("rachid", "GESTIONNAIRE");
+		Role admin = implAccountService.saveRole(new Role(null, "ADMIN"));
+		Role user = implAccountService.saveRole(new Role(null, "USER"));
+
+		implUserService.saveUser(new User(null, "rachid@gmail.com", "12345", "Rachid", admin));
+		implUserService.saveUser(new User(null, "hugo@gmail.com", "12345", "Hugo", user));
+
 
 	}
 	private void dataHotels(){
-		City paris = cityRepository.save(new City(null, "Paris",null, null));
-		City lyon = cityRepository.save( new City(null, "Lyon",null, null));
-		City rouen = cityRepository.save( new City(null, "Rouen",null, null));
+		City paris = cityRepository.save(new City(null, "Paris","Ville Lumière", null));
+		City lyon = cityRepository.save( new City(null, "Lyon","stade gerland", null));
+		City rouen = cityRepository.save( new City(null, "Rouen"," la ville de la jeunesse", null));
 
 		Hotel hotel1 = hotelRepository.save(new Hotel(null, "Ibis", "0123456789", "3 rue de paris", "http://localhost:8080/images/ibis.jpg", 3, 100, 50,paris ));
 		Hotel hotel2 =  hotelRepository.save( new Hotel(null, "Premiere class", "0123456789", "30 rue de grenoble", "http://localhost:8080/images/1classe.jpg", 4, 50, 50,paris));

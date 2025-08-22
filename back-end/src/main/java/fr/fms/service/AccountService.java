@@ -1,7 +1,7 @@
 package fr.fms.service;
 
 import fr.fms.entity.Role;
-import fr.fms.entity.Supervisor;
+import fr.fms.entity.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +10,11 @@ import java.util.List;
 @Service
 public interface AccountService {
 
-    Supervisor saveSupervisor(Supervisor supervisor);
-
     Role saveRole(Role role);
 
-    void addRoleToSupervisor(String email, String role);
+    void addRoleToUser(String email, String role);
 
-    ResponseEntity<List<Supervisor>> listSupervisors();
+    User registerUserWithRole(User user,String rolename);
+
+
 }
