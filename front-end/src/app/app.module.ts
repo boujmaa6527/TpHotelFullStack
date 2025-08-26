@@ -9,6 +9,8 @@ import { HotelComponent } from './components/hotel/hotel.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { HotelDetailComponent } from './components/hotel-detail/hotel-detail.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { VilleDetailComponent } from './components/ville-detail/ville-detail.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { HotelDetailComponent } from './components/hotel-detail/hotel-detail.com
     MenuComponent,
     HotelComponent,
     LoginComponent,
-    HotelDetailComponent
+    HotelDetailComponent,
+    AdminComponent,
+    VilleDetailComponent
   ],
   imports: [
     BrowserModule,

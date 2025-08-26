@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { City } from '../../model/city.model';
 import { Hotel } from '../../model/hotel.model';
+import { AuthenticateService } from '../../services/authenticate.service';
+import { User } from '../../model/user.model';
 
 @Component({
   selector: 'app-hotel-detail',
@@ -11,27 +13,44 @@ import { Hotel } from '../../model/hotel.model';
   styleUrl: './hotel-detail.component.scss'
 })
 export class HotelDetailComponent implements OnInit {
-  
-    myForm!: FormGroup;
-    hotel!: Hotel;
-    error!: null;
-    status: boolean = false;
-    cities: City[] = [];
-    listHotels!: Hotel[] | undefined;
-  listCities!: City[] |undefined;
+
+  myForm!: FormGroup;
+  hotel: any;
+  error!: null;
+  status: boolean = false;
+  cities: City[] = [];
+  listHotels!: Hotel[] | undefined;
+  listCities!: City[] | undefined;
   hotels: any[] = [];
   filteredHotels: Hotel[] | undefined;
   city!: City;
-  
-    selectedFile: File | null = null;
-    imagePreview: string | ArrayBuffer | null = null;
-  
-  
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router:Router, private route: ActivatedRoute){}
-  
+  isAdmin: boolean = false;
+  user!: User;
+  userString!: string;
+  selectedFile: File | null = null;
+  imagePreview: string | ArrayBuffer | null = null;
+
+
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router: Router, private route: ActivatedRoute, public authService: AuthenticateService) {
+    //check if user is admin when if he is connected
+    console.log("UerRole:" , this.authService.getUser().role);
+    this.userString = this.authService.getUser().role.rolename;
+    console.log("UserString: ", this.userString);
+     this.isAdmin = this.authService.isAdmin();
+    console.log("isADMIN: " , this.isAdmin);
+    const isAdmin2 = Object.keys(this.authService.getUser().role).includes('ADMIN');
+    
+    
+    
+  }
+
   ngOnInit(): void {
+   
+    console.log("IsAdmin", this.isAdmin);
     let id = this.route.snapshot.params['id'];
     console.log("HotelId", id);
+    this.isAdmin = this.authService.isAdmin();
+    console.log("admin :", this.isAdmin);
     this.apiService.getCities().subscribe({
       next: (data) => {
         this.cities = data;
@@ -43,6 +62,10 @@ export class HotelDetailComponent implements OnInit {
       this.apiService.getHotel(id).subscribe({
         next: (data) => {
           this.hotel = data;
+          // Charger l'image existante
+          if (this.hotel.imageUrl) {
+            this.imagePreview = this.hotel.imageUrl;
+          }
           this.myForm.setValue({
             id: this.hotel.id,
             name: this.hotel.name,
@@ -53,14 +76,12 @@ export class HotelDetailComponent implements OnInit {
             price: this.hotel.price,
             city: this.hotel.city.id
           });
-          // Charger l'image existante
-          if (this.hotel.imageUrl) {
-            this.imagePreview = this.hotel.imageUrl;
-          }
+
         },
         error: (err) => this.error = err.message
       });
     }
+
   }
   formSubmitted = false;
   onFileSelected(event: any) {
@@ -87,10 +108,8 @@ export class HotelDetailComponent implements OnInit {
       complete: () => (this.error = null),
     });
   }
-  
-  onUpdateHotelDetail(hotel: Hotel) {
-    this.router.navigateByUrl('hotel-detail/' + hotel.id);
-  }
+
+
   onUpdateHotel(hotel: Hotel) {
     this.router.navigateByUrl('hotel/' + hotel.id);
   }
@@ -108,9 +127,14 @@ export class HotelDetailComponent implements OnInit {
         },
         complete: () => console.log("Requete terminée")
       }
-    );}
+      );
+    }
   }
-  
+  OnIsAdmin(): boolean {
+    return this.authService.getUser().role.rolename == "ADMIN";
+    
+  }
+
 
 }
 

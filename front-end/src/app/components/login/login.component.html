@@ -1,25 +1,36 @@
-<div class="container">
+<div class="container" >
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card mt-5">
                 <div class="card-body">
                     <h2 class="text-center">Connexion</h2>
-                    <form>
+                    <form [formGroup]= "myForm" (ngSubmit) ="onLogin(myForm)">
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Entrez votre email">
+                            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Entrez votre email">
                         </div>
                         <div class="form-group">
                             <label for="password">Mot de passe</label>
-                            <input type="password" class="form-control" id="password" placeholder="Entrez votre mot de passe">
+                            <input type="password" class="form-control" id="password" formControlName="password" placeholder="Entrez votre mot de passe">
                         </div>
                         <div class="button">
                             <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
                         </div>
-                       
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- ng-template #deconnect>
+    <div class="container">
+        <h1 class="text-center my-4">Déconnexion</h1>
+        <div class="text-center">
+        <label class="text-center">Utilisateur :{{this.authService.getUser().email}}</label></div>
+        <div class="text-center">
+            <a class="btn btn-primary mb-3" (click)="disconnect()"> Se Deconnecter </a>
+            <p class="info-message text-muted">Vous serez redirigés vers la page d'accueil aprés la déconnexion</p>
+        </div>
+
+    </div>
+</ng-template> -->

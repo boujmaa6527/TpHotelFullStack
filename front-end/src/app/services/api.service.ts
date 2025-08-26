@@ -4,6 +4,7 @@ import { Hotel } from '../model/hotel.model';
 import { environment } from '../../environments/environment';
 import { City } from '../model/city.model';
 import { Observable } from 'rxjs';
+import { User } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  public getHotels() {
+  public getHotels(): Observable<Hotel[]> {
     return this.http.get<Hotel[]>(environment.host + "/hotels");
   }
 
@@ -46,6 +47,20 @@ export class ApiService {
 
   createHotel(Hotel: Hotel): Observable<Hotel>{
     return this.http.post<Hotel>(`${environment.host}/hotel/`, Hotel);
+  }
+  public getUsers(){
+    return this.http.get<User[]>(environment.host+ "/users/login", {responseType: 'json'});
+  }
+
+  public getUserByEmail(email: string){
+    return this.http.get<User[]>(environment.host +"/users/login?email=" +email);
+
+  }
+  public postUser(user: any){
+    return this.http.post<User>(environment.host+ "/users/login", user, {withCredentials:true});
+  }
+  public getUserByEmailAndPassword(email: string, password:string){
+    return this.http.get<User>(`${environment.host}/users/login?email=${email}&password=${password}`, {responseType: 'json'});
   }
 
 }
