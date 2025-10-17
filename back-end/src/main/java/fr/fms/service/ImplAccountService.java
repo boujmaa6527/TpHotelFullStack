@@ -24,15 +24,6 @@ public class ImplAccountService implements AccountService{
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-//    @Override
-//    public Supervisor saveSupervisor(Supervisor supervisor) {
-//        String hashPw = bCryptPasswordEncoder.encode(supervisor.getPassword());
-//        supervisor.setPassword(hashPw);
-//        log.info("sauvegarde d'un nouvel supervisor {} en base", supervisor);
-//        return supervisorRepository.save(supervisor);
-//
-//    }
-
     @Override
     public Role saveRole(Role role) {
         log.info("Saving role:" + role);
@@ -64,26 +55,5 @@ public class ImplAccountService implements AccountService{
         return implUserService.saveUser(user);
     }
 
-//    @Override
-//    public void addRoleToSupervisor(String email, String role) {
-//        Role roleRecord = roleRepository.findByRole(role);
-//        User user = ImplUserService.findByEmail(email);
-//        if(roleRecord != null && supervisor != null){
-//            user.getRoles().add(roleRecord);
-//            log.info("Added role: "+ roleRecord+ "to supervisor: "+ email);
-//        }else {
-//            log.error("User or Role not found! Supervisor: "+ email+ ", Role: " +roleRecord);
-//        }
-//
-//
-//
-//    }
-//    public Supervisor findSuperVisorByEmail(String email){
-//        return supervisorRepository.findByEmail(email);
-//    }
-//
-//    @Override
-//    public ResponseEntity<List<Supervisor>> listSupervisors() {
-//        return ResponseEntity.ok(supervisorRepository.findAll());
-//    }
+
 }

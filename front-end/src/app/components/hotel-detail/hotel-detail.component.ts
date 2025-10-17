@@ -29,6 +29,9 @@ export class HotelDetailComponent implements OnInit {
   userString!: string;
   selectedFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
+  isUpdatedMode: boolean =false;
+  connected: boolean = false;
+  userA: {username:string} = {username:''};
 
 
   constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router: Router, private route: ActivatedRoute, public authService: AuthenticateService) {
@@ -36,16 +39,46 @@ export class HotelDetailComponent implements OnInit {
     console.log("UerRole:" , this.authService.getUser().role);
     this.userString = this.authService.getUser().role.rolename;
     console.log("UserString: ", this.userString);
-     this.isAdmin = this.authService.isAdmin();
+  
     console.log("isADMIN: " , this.isAdmin);
-    const isAdmin2 = Object.keys(this.authService.getUser().role).includes('ADMIN');
-    
+    console.log("localStorage user: ", localStorage.getItem("user"));
+    const user = this.authService.getUser();
+    this.userString = user.role.rolename;
+  
+    console.log("User récupéré: ", this.authService.getUser());
+    this.isAdmin = this.authService.isAdmin();
     
     
   }
 
   ngOnInit(): void {
-   
+    
+   this.connected = this.authService.isConnected();
+    if(this.connected) {
+      this.user = this.authService.getUser();
+      console.log("admin :", this.isAdmin);
+      this.isAdmin = this.user.role['role'] ===  "ADMIN";
+      console.log("Admin connecté", this.isAdmin)
+    }
+    console.log("user from getUser(): ", this.authService.getUser());
+    console.log("isAdmin(): ", this.authService.isAdmin());
+
+
+    this.authService.connected$.subscribe((status: boolean) =>{
+      this.connected = status; 
+      this.isUpdatedMode = status;
+      if(status) {
+        this.user = this.authService.getUser();
+        this.isAdmin =  this.user.role['role'] ===  "ADMIN";
+       
+
+      }else{
+        this.userA = {username:''}; 
+        this.isAdmin = false; //clear user if disconnected
+        
+      }
+     
+    })
     console.log("IsAdmin", this.isAdmin);
     let id = this.route.snapshot.params['id'];
     console.log("HotelId", id);

@@ -9,10 +9,10 @@
           <a class="nav-link" [routerLink] ="'/hotels'">Hotels <span class="sr-only"></span></a>
         </li>
         <li class="nav-item">  
-          <a class="nav-link"     *ngIf="isAdmin"  [routerLink] ="'/hotel'">Ajoutez Un Hotel</a>
+          <a class="nav-link"     *ngIf="connected"  [routerLink] ="'/hotel'">Ajoutez Un Hotel</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"    *ngIf="isAdmin"[routerLink] ="'/ville-detail'">Ajoutez une ville</a>
+          <a class="nav-link"    *ngIf="connected"[routerLink] ="'/ville-detail'">Ajoutez une ville</a>
         </li>
         
         <li class="nav-item">

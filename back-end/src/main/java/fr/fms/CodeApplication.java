@@ -67,6 +67,9 @@ public class CodeApplication  implements CommandLineRunner {
 		Hotel hotel14 = hotelRepository.save(new Hotel(null, "Appart Hotel ", "0123456789", "15 rue de rouen", "http://localhost:8080/images/ibis.jpg", 3, 80, 50,rouen));
 		Hotel hotel15 = hotelRepository.save(new Hotel(null, "Enzo Hotel", "0123456789", "31 rue de poterie", "http://localhost:8080/images/ibis.jpg", 4, 80, 50,rouen ));
 		Hotel hotel19 = hotelRepository.save(new Hotel(null, "Enzo Hotel", "0123456789", "14 rue de louviers", "http://localhost:8080/images/ibis.jpg", 2, 90, 50,rouen ));
+		Hotel hotel20 = hotelRepository.save(new Hotel(null, "Enzo Hotel", "0123456789", "14 rue de louviers", "http://localhost:8080/images/ibis.jpg", 2, 90, 50,rouen ));
+		Hotel hotel21 = hotelRepository.save(new Hotel(null, "Enzo Hotel", "0123456789", "14 rue de louviers", "http://localhost:8080/images/ibis.jpg", 2, 90, 50,rouen ));
+		Hotel hotel22 = hotelRepository.save(new Hotel(null, "Enzo Hotel", "0123456789", "14 rue de louviers", "http://localhost:8080/images/ibis.jpg", 2, 90, 50,rouen ));
 
 	}
 }

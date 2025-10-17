@@ -4,6 +4,8 @@ import { Hotel } from '../../model/hotel.model';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { City } from '../../model/city.model';
+import { AuthenticateService } from '../../services/authenticate.service';
+import { User } from '../../model/user.model';
 
 @Component({
   selector: 'app-hotel',
@@ -15,13 +17,17 @@ export class HotelComponent  implements OnInit{
   hotel: Hotel;
   error: string = "";
   status: boolean = false;
+  isUpdatedMode: boolean =false;
   cities: City[] = [];
+  isAdmin: boolean = false;
+  connected: boolean = false;
+  user: {username:string} = {username:''};
  
   
   selectedFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
   
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router:Router, private route: ActivatedRoute){
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router:Router, private route: ActivatedRoute, private authenticateService: AuthenticateService){
     this.hotel = new Hotel(0, "", "", "", "", 0, 0,0,new City(0, "",""));
     this.myForm = this.formBuilder.group({
       id: [this.hotel.id],
@@ -38,8 +44,11 @@ export class HotelComponent  implements OnInit{
   }
 
   ngOnInit(): void {
+   
     let id = this.route.snapshot.params['id'];
     console.log("HotelId", id);
+    console.log("isAdmin: " , this.authenticateService.isAdmin());
+     console.log("User local Storage: ", this.authenticateService.getUser());
     this.apiService.getCities().subscribe({
       next: (data) => {
         this.cities = data;
@@ -169,5 +178,6 @@ export class HotelComponent  implements OnInit{
       error: (err) => this.error = err.message
     });
   }
+
 
 }

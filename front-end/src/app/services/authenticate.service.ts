@@ -26,8 +26,10 @@ export class AuthenticateService {
   }
   getUser(){
 
-    let user = localStorage.getItem('user');
+   /* let user = localStorage.getItem('user');
     if(user){
+      console.log("User base64: ", user);
+      console.log("Decoded user: ", atob(user));
       try{
         this.userConnected = JSON.parse(atob(user));
       }catch(e){
@@ -38,7 +40,21 @@ export class AuthenticateService {
       this.userConnected = new User(0, "", "", {id: 0, rolename: ""});
     }
    
-    return this.userConnected;
+    return this.userConnected;*/
+    const userEncoded = localStorage.getItem('user'); 
+    if(!userEncoded) return new User(0, "","", {id: 0, rolename: ''});
+
+    try{
+      const decoded = atob(userEncoded);
+      const parsed = JSON.parse(decoded);
+
+      if(parsed && parsed.role && parsed.role.rolename){
+        return parsed;
+      }
+    } catch(e){
+      console.error('Erreur parsing user: ', e);
+    }
+    return new User(0, '', '', {id: 0, rolename: ''});
   }
 
 
@@ -56,7 +72,7 @@ export class AuthenticateService {
 
   isAdmin(): boolean{
     let user  = this.getUser();
-    console.log("User:" , user);
+   /* console.log("User:" , user);
     if(user?.role?.rolename){
       return user?.role?.rolename === 'ADMIN';
     }
@@ -64,7 +80,8 @@ export class AuthenticateService {
       return user.role.some((role: { rolename: string; }) => role.rolename === 'ADMIN');
     }
 
-    return false; 
+    return false; */
+    return user && user.role && user.role.rolename ===  'ADMIN';
      
   }
   isUser(){
